@@ -72,6 +72,10 @@ class Product extends Model
     {
         return $query->orderBy('ordered_counter', 'desc');
     }
-    
-    
+ 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class,table:'ingredients')->where('feature', 'ingredient');
+    }
+
 }

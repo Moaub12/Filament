@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId("product_id")->constrained(table:"products");
             $table->foreignId('ingredient_id')->constrained(table:"products");
-            $table->boolean('removable');
+            $table->boolean('removable')->default(0);
         
             $table->timestamps();
         });

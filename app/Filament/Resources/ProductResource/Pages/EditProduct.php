@@ -6,6 +6,8 @@ use App\Filament\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
+use function PHPUnit\Framework\returnValue;
+
 class EditProduct extends EditRecord
 {
     protected static string $resource = ProductResource::class;
@@ -16,4 +18,5 @@ class EditProduct extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+   
 }
