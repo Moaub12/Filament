@@ -20,32 +20,29 @@ class CreateOrder extends CreateRecord
 
     protected function beforeCreate():void
     {
-        $client = $this->data['client_id'];
-        $payment = $this->data['payment_id'];
+        // Repeater
+        // $data = $this->data['product'];
+        // foreach ($data as $p) {
+        //     dd($p);
+        // }
 
-        $available_order = Order::where('client_id', $client)
-            ->where('status', 'draft')
-            ->latest('id')
-            ->first();
-        if (!$available_order) {
-            $available_order = Order::create([
-                'status' => 'draft',
-                'ordered_date' => '2023-08-23',
-                'client_id' => $client,
-                'payment_id' => $payment,
-                'coupon_id' => 1,
-            ]);
-        }
+        
+        
+        
     }
 
     protected function afterCreate(): void
     {
         $client = $this->data['client_id'];
-        $product = $this->data['productId'];
-        $quantity = $this->data['quantity'];
-        $addons = $this->data['addonsId'];
-        $removes = $this->data['removesId'];
-        // dd($addons);
+        // Repeater
+        $data = $this->data['product'];
+        foreach ($data as $p) {
+            $productId = $p['productId'];
+            $quantity = $p['quantity'];
+            $addons = $p['addonsId'];
+            $removes = $p['removes'];
+            
+            
             $available_order = Order::where('client_id', $client)
             ->where('status', 'draft')
             ->latest('id')
@@ -54,12 +51,10 @@ class CreateOrder extends CreateRecord
         // if(!$old_product){
             $orderLine = OrderLine::create([
                 'order_id' => $available_order->id,
-                'product_id' => $product,
+                'product_id' => $productId,
                 'quantity' => $quantity,
             ]);
-            $orderLine->products()->attach(['product_id'=>$product],['order_line_id'=>$orderLine->id]);
-            // if(!empty($addons))
-            // {
+            $orderLine->products()->attach(['product_id'=>$productId],['order_line_id'=>$orderLine->id]);
                 if ($addons !== null)
                 {
                     foreach ($addons as $product_id)
@@ -76,9 +71,6 @@ class CreateOrder extends CreateRecord
                 }else{
                     $msg = 'error';
                 }
-            // }
-            // if(!empty($removes))
-            // {
                 if($removes !== null)
                 {
                     foreach ($removes as $product_id)
@@ -88,14 +80,13 @@ class CreateOrder extends CreateRecord
                         ]);
                         ProductProductRemove::create([
                             'product_id'=>$product_id,
-                            'product_remove_id'=>[$product_remove->id],
+                            'product_remove_id'=>$product_remove->id,
                         ]);
                     }
                 }else{
                     $msg = 'error';
                 }
-                
-            // }
+        }
                 
                 
             
