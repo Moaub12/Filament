@@ -10,7 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
+
 use Filament\Tables\Table;
 
 
@@ -36,6 +36,7 @@ class ProductResource extends Resource
                     ->required()
                     ->numeric()
                     ->prefix('$')
+                    ->minValue(0)
                     ->maxValue(42949672.95),
 
              

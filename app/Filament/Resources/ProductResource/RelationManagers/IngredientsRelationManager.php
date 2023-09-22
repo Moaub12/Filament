@@ -24,7 +24,7 @@ class IngredientsRelationManager extends RelationManager
                     ->required()
                     ->maxLength(255),
                     Forms\Components\TextInput::make('removable')->
-                    numeric()->default(0)->maxValue(1),
+                    numeric()->default(0)->maxValue(1)->minValue(0),
                     
             ]);
             
