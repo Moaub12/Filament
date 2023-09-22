@@ -40,6 +40,8 @@ class ProductsRelationManager extends RelationManager
                 // ViewColumn::make('orderLine')->view('tables.columns.order-line'),
                 TextColumn::make(''),
                 Tables\Columns\TextColumn::make('quantity'),
+                Tables\Columns\TextColumn::make('addons'),
+                Tables\Columns\TextColumn::make('removes'),
             ])
             ->filters([
                 //

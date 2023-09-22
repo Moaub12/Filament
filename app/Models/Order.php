@@ -19,7 +19,7 @@ class Order extends Model
         'total_discounted',
     ];
     public function products(){
-        return $this->belongsToMany(Product::class,table:'order_lines')->withPivot('quantity');
+        return $this->belongsToMany(Product::class,table:'order_lines')->withPivot('quantity','addons','removes');
     }   
     public function client(){
     return $this->belongsTo(Client::class);

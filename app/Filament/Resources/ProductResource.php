@@ -38,8 +38,7 @@ class ProductResource extends Resource
                     ->prefix('$')
                     ->maxValue(42949672.95),
 
-                Forms\Components\TextInput::make('quantity')
-                    ->numeric(),
+             
                 Forms\Components\Select::make('feature')
                     ->options([
                         'product' => 'product',

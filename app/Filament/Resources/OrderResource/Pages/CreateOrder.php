@@ -5,6 +5,7 @@ namespace App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderLine;
+use App\Models\Product;
 use App\Models\ProductAddon;
 use App\Models\ProductProductAddon;
 use App\Models\ProductProductRemove;
@@ -67,6 +68,10 @@ class CreateOrder extends CreateRecord
                             'product_id'=>$product_id,
                             'product_addon_id'=>$product_addon->id,
                         ]);
+                        $addon_name=Product::find($product_id)->name;
+                      
+                         $orderLine->addons= $orderLine->addons.$addon_name.",";
+                         $orderLine->save();
                     }
                 }else{
                     $msg = 'error';
@@ -82,6 +87,10 @@ class CreateOrder extends CreateRecord
                             'product_id'=>$product_id,
                             'product_remove_id'=>$product_remove->id,
                         ]);
+                        $remove_name=Product::find($product_id)->name;
+                      
+                        $orderLine->removes= $orderLine->removes.$remove_name.",";
+                        $orderLine->save();
                     }
                 }else{
                     $msg = 'error';
