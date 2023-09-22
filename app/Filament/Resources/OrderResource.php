@@ -6,6 +6,7 @@ use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\ProductsRelationManager;
 use App\Models\Client;
+use App\Models\ClientDetails;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -45,7 +46,9 @@ class OrderResource extends Resource
 
                     //     }
                     // })
-                    ->options(Client::all()->pluck('id','id'))
+                    ->options( Client::with('user')
+                    ->get()
+                    ->pluck('user.name', 'user.id'))
                     ->disabledOn("edit")
                     ->reactive(),
                 TextInput::make('payment_id')
