@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_addons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_line_id')->constrained(table:'order_lines');
+            $table->foreignId('order_line_id')->constrained(table:'order_lines')->onDelete('cascade');
             $table->timestamps();
         });
     }
