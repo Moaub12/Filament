@@ -26,6 +26,7 @@ class EditOrder extends EditRecord
         $id = $this->data['id'];
         $data = $this->data['product'];
         $ordered = $this->data['order'];
+        $total = 0;
 
 
         $available_order = Order::find($id);
@@ -82,6 +83,14 @@ class EditOrder extends EditRecord
         {
             $available_order->status = "order";
             $available_order->update();
+
+            $orderlines = Orderline::where('order_id',$available_order->id)->get();
+            foreach ($orderlines as $orderline) {
+                $total += $orderline->subTotal;
+            }
+            $available_order->total = $total;
+            $available_order->total_discounted = $total;
+            $available_order->save();
         }
 
     }

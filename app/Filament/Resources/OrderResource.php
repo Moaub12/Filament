@@ -56,7 +56,7 @@ class OrderResource extends Resource
                 Repeater::make('product')
                     ->schema([
                         Select::make('productId')
-                            ->label('Product')
+                            ->label('Product')  
                             ->options(Product::where('feature','product')->get()->pluck('name','id'))
                             ->reactive(),
                             // ->afterStateUpdated(fn(callable $set)=>$set('addonsId',null)),
@@ -107,6 +107,7 @@ class OrderResource extends Resource
                 TextColumn::make('status'),
                 TextColumn::make('ordered_date'),
                 TextColumn::make('total'),
+                TextColumn::make('total_discounted'),
             ])
             ->filters([
                 //

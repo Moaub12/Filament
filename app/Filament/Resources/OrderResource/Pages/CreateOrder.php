@@ -42,7 +42,10 @@ class CreateOrder extends CreateRecord
             $quantity = $p['quantity'];
             $addons = $p['addonsId'];
             $removes = $p['removes'];
-            
+            $addons_price = 0;
+            $subtotal = 0;
+
+            $product = Product::find($productId);          
             
             $available_order = Order::where('client_id', $client)
             ->where('status', 'draft')
@@ -68,11 +71,17 @@ class CreateOrder extends CreateRecord
                             'product_id'=>$product_id,
                             'product_addon_id'=>$product_addon->id,
                         ]);
-                        $addon_name=Product::find($product_id)->name;
+                        $addon = Product::find($product_id);
+                        $addon_name=$addon->name;
+                        $addons_price += $addon->price;
                       
                          $orderLine->addons= $orderLine->addons.$addon_name.",";
                          $orderLine->save();
                     }
+                    $orderLine->subTotal = ($product->price + $addons_price) * $quantity;
+                    $orderLine->save();
+
+
                 }else{
                     $msg = 'error';
                 }
