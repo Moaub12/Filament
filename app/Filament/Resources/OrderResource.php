@@ -16,6 +16,7 @@ use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -32,9 +33,7 @@ class OrderResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $state = [
-            "productId"=>"1"
-        ];
+        $quantity = 1;
         return $form
             ->schema([
                 Select::make('client_id')
@@ -47,10 +46,11 @@ class OrderResource extends Resource
                     //     }
                     // })
                     ->options(Client::all()->pluck('id','id'))
+                    ->disabledOn("edit")
                     ->reactive(),
                 TextInput::make('payment_id')
                     ->label("Payment")
-                    ->visible()
+                    ->disabledOn("edit")
                     ->default('1'),
                     // ->hidden(),
                 Repeater::make('product')
@@ -89,10 +89,13 @@ class OrderResource extends Resource
                             return $product->removables->pluck('name','id');
                         }),
                     ])
-                    ->itemLabel(fn (array $state): ?string => $state['productId'] ?? null)
+                    ->itemLabel(fn (array $state): ?string => $state['quantity'] ?? null),
+                    Toggle::make('order')
+                        ->visibleOn("edit"),
 
                 
             ])->columns(1);
+            
     }
 
     public static function table(Table $table): Table
@@ -103,6 +106,7 @@ class OrderResource extends Resource
                 TextColumn::make('client.user.name'),
                 TextColumn::make('status'),
                 TextColumn::make('ordered_date'),
+                TextColumn::make('total'),
             ])
             ->filters([
                 //
